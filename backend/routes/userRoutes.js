@@ -1,9 +1,10 @@
 import express from "express";
+import { login, logout, signup } from "../controllers/userController.js";
 
 
 const userRoutes=express.Router();
-userRoutes.get('/signup');
-userRoutes.get('/login');
-userRoutes.get('/logout');
+userRoutes.post('/signup', signup);
+userRoutes.post('/login', login);
+userRoutes.post('/logout', logout);
 
 export default userRoutes
