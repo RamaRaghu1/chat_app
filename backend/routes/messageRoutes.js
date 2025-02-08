@@ -1,8 +1,8 @@
 import express from "express";
-import protectdRoute from "../middleware/protectedRoute.js";
+import protectedRoute from "../middleware/protectedRoute.js"
 import { sendMessage, getMessage } from "../controllers/messageController.js";
 const messageRoutes=express.Router();
-messageRoutes.post("/send/:id", protectdRoute,sendMessage);
-messageRoutes.get("/:id", protectdRoute,getMessage);
+messageRoutes.post("/send/:id", protectedRoute,sendMessage);
+messageRoutes.get("/:id", protectedRoute,getMessage);
 
 export default messageRoutes;

@@ -1,14 +1,21 @@
 import React,{useState} from 'react'
 import { FaMessage } from "react-icons/fa6";
+import { MdLogout } from "react-icons/md";
 import { FaRegUserCircle, FaSearch } from "react-icons/fa";
+import useLogout from '../hooks/useLogout';
+import useGetConvo from '../hooks/useGetConvo';
+import { useConversation } from '../context/ConversationContext';
 const Sidebar = () => {
-    const [selectedContact, setSelectedContact] = useState(1);
-    const contacts= [
-        { id: 1, name: 'rama', lastMessage: 'Hi', time: '12:30 PM', unread: 2 },
-      
-      ];
-    
+const {logout, loading}=useLogout();
+const {loading:convoLoading, conversations:contacts}=useGetConvo();
+const {selectedConversation, setSelectedConversation}=useConversation();
 
+console.log(selectedConversation)
+
+    // const [selectedContact, setSelectedContact] = useState(1);
+   
+    
+    // const isSelected = selectedConversation?._id === contacts._id;
   return (
  
          <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
@@ -35,31 +42,41 @@ const Sidebar = () => {
           {contacts.map(contact => (
             <div
               key={contact.id}
-              onClick={() => setSelectedContact(contact.id)}
+              onClick={() => setSelectedConversation(contact)}
               className={`p-4 cursor-pointer hover:bg-gray-50 ${
-                selectedContact === contact.id ? 'bg-blue-50' : ''
+                selectedConversation === contact._id ? 'bg-blue-100' : ''
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <FaRegUserCircle className="h-12 w-12 text-gray-400" />
                   <div>
-                    <h3 className="font-medium">{contact.name}</h3>
-                    <p className="text-sm text-gray-500">{contact.lastMessage}</p>
+                    <h3 className="font-medium">{contact.fullName}</h3>
+                    {/* <p className="text-sm text-gray-500">{contact.lastMessage}</p> */}
                   </div>
                 </div>
-                <div className="text-right">
+                {/* <div className="text-right">
                   <p className="text-xs text-gray-500">{contact.time}</p>
                   {contact.unread > 0 && (
                     <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-1 mt-1 inline-block">
                       {contact.unread}
                     </span>
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
           ))}
         </div>
+
+
+        <div className="p-4 border-t border-gray-200">
+        <button
+          onClick={logout}
+          className='cursor-pointer p-2 rounded-full hover:bg-gray-100'
+        >
+         <MdLogout size={25}/>
+        </button>
+      </div>
       </div>
 
 

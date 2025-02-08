@@ -1,21 +1,27 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { FaRegUserCircle } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
-
+import { useConversation } from '../context/ConversationContext';
+import useSendMessage from '../hooks/useSendMessage';
+import useGetMessages from '../hooks/useGetMessage';
+import { useAuthContext } from '../context/AuthContext';
 const Chat = () => {
-    const [message, setMessage] = useState('');
-
-
-    const messages= [
-        { id: 1, text: 'Hi there!', sent: false, timestamp: '12:00 PM' },
-     
-      ];
+  const { authUser } = useAuthContext();
+  console.log(authUser._id, "iggg")
+  const[message, setMessage]=useState("");
+   const {loading, sendMessage}=useSendMessage();
+   const{loading:messageLoading, messages}=useGetMessages();
+const {selectedConversation, setSelectedConversation}=useConversation();
+useEffect(()=>{
+  return ()=>setSelectedConversation(null)
+},[setSelectedConversation])
+  console.log(messages)
     
-      const handleSend = () => {
-        if (message.trim()) {
-         
-          setMessage('');
-        }
+      const handleSend = async(e) => {
+        e.preventDefault();
+        if(!message)return;
+       await sendMessage(message);
+       setMessage("")
       };
     
   return (
@@ -25,36 +31,29 @@ const Chat = () => {
           <div className="flex items-center space-x-3">
             <FaRegUserCircle className="h-10 w-10 text-gray-400" />
             <div>
-              <h2 className="font-medium">Rama</h2>
-              <p className="text-sm text-gray-500">Online</p>
+              <h2 className="font-medium">{selectedConversation?.fullName}</h2>
+              {/* <p className="text-sm text-gray-500">Online</p> */}
             </div>
           </div>
           
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.map(msg => (
-            <div
-              key={msg.id}
-              className={`flex ${msg.sent ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-[70%] rounded-lg p-3 ${
-                  msg.sent
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-200 text-gray-800'
-                }`}
-              >
-                <p>{msg.text}</p>
-                <p className={`text-xs mt-1 ${
-                  msg.sent ? 'text-blue-100' : 'text-gray-500'
-                }`}>
-                  {msg.timestamp}
-                </p>
-              </div>
+      {!messageLoading && messages.length === 0 && (
+        <p className='text-center'>Send a message to start the conversation</p>
+      )}
+      {messages && messages?.map((msg) => {
+        const fromMe = msg?.senderId === authUser?._id;
+        return (
+          <div key={msg._id} className={`flex ${fromMe ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[70%] rounded-lg p-3 ${fromMe ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
+              <p>{msg.message}</p>
+              <p className={`text-xs mt-1 ${fromMe ? 'text-blue-100' : 'text-gray-500'}`}>{msg.timestamp}</p>
             </div>
-          ))}
-        </div>
+          </div>
+        );
+      })}
+    </div>
 
         <div className="p-4 border-t border-gray-200 bg-white">
           <div className="flex items-center space-x-2">

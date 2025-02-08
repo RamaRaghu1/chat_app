@@ -1,13 +1,22 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import router from "./App.jsx";
+
 import { Toaster } from "react-hot-toast";
-import { RouterProvider } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import { AuthContextProvider } from "./context/AuthContext.jsx";
+import App from "./App.jsx";
+import { ConversationProvider } from "./context/ConversationContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-    <>
-<RouterProvider router={router}/>
-<Toaster />
-</>
+  <>
+    <BrowserRouter>
+      <AuthContextProvider>
+        <ConversationProvider>
+          <App />
+          <Toaster />
+        </ConversationProvider>
+      </AuthContextProvider>
+    </BrowserRouter>
+  </>
 );
