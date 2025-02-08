@@ -5,13 +5,27 @@ import { useConversation } from '../context/ConversationContext';
 import useSendMessage from '../hooks/useSendMessage';
 import useGetMessages from '../hooks/useGetMessage';
 import { useAuthContext } from '../context/AuthContext';
+import { useSocketContext } from '../context/SocketContext';
+import toast from 'react-hot-toast';
+import useListenMessages from '../hooks/useListenMessages';
+import { NoChatSelected } from './EmptyChat';
+
+
 const Chat = () => {
   const { authUser } = useAuthContext();
+  const {onlineUsers}=useSocketContext();
+  console.log("online", onlineUsers)
   // console.log(authUser._id, "iggg")
   const[message, setMessage]=useState("");
    const {loading, sendMessage}=useSendMessage();
    const{loading:messageLoading, messages}=useGetMessages();
 const {selectedConversation, setSelectedConversation}=useConversation();
+
+const [previousOnlineUsers, setPreviousOnlineUsers] = useState([])
+
+useListenMessages();
+
+
 useEffect(()=>{
   return ()=>setSelectedConversation(null)
 },[setSelectedConversation])
@@ -24,15 +38,39 @@ useEffect(()=>{
        setMessage("")
       };
     
+
+
+      useEffect(() => {
+        if (previousOnlineUsers.length > 0) {
+          const newOnlineUsers = onlineUsers.filter(user =>
+            !previousOnlineUsers.some(prevUser => prevUser.userId === user.userId)
+          );
+    
+          const disconnectedUsers = previousOnlineUsers.filter(user =>
+            !onlineUsers.some(currUser => currUser.userId === user.userId)
+          );
+    
+          newOnlineUsers.forEach(user => toast.success(`${user.username} is online`));
+          disconnectedUsers.forEach(user => toast.error(`${user.username} disconnected`));
+        }
+    
+        setPreviousOnlineUsers(onlineUsers);
+      }, [onlineUsers]);
+
+
   return (
     
+    
           <div className="flex-1 flex flex-col">
+      {!selectedConversation ?
+    <NoChatSelected/>:(
+      <>
         <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white">
           <div className="flex items-center space-x-3">
             <FaRegUserCircle className="h-10 w-10 text-gray-400" />
             <div>
               <h2 className="font-medium">{selectedConversation?.fullName}</h2>
-              {/* <p className="text-sm text-gray-500">Online</p> */}
+             
             </div>
           </div>
           
@@ -73,6 +111,10 @@ useEffect(()=>{
             </button>
           </div>
         </div>
+      
+      </>
+    )  
+    }
       </div>
 
 

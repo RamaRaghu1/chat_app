@@ -20,67 +20,74 @@ await signup(inputs);
     <div className='p-4 h-screen flex items-center justify-center'>
       <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
  			<div className='w-full p-6 rounded-lg shadow-md bg-gray-100 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0'>
- 				<h1 className='text-3xl font-semibold text-center text-gray-300'>
+ 				<h1 className='text-3xl font-semibold text-center text-blue-500'>
  					Sign Up 
  				</h1>
 
- 				<form onSubmit={handleSubmit}>
- 					<div>
- 						<label className='label p-2'>
- 							<span className='text-base label-text'>Full Name</span>
- 						</label>
- 						<input type='text' placeholder='Enter you name' 
-						value={inputs.fullName}
-						onChange={(e)=>setInputs({...inputs, fullName:e.target.value})}
-						className='w-full input input-bordered  h-10' />
- 					</div>
+ 				<form onSubmit={handleSubmit} className="space-y-4">
+        
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Full Name</label>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={inputs.fullName}
+              onChange={(e) => setInputs({ ...inputs, fullName: e.target.value })}
+              className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
 
- 					<div>
- 						<label className='label p-2 '>
- 							<span className='text-base label-text'>Username</span>
- 						</label>
- 						<input type='text' placeholder='Enter unsername'
-						value={inputs.username}
-						onChange={(e)=>setInputs({...inputs, username:e.target.value})}
-						className='w-full input input-bordered h-10' />
- 					</div>
+         
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Username</label>
+            <input
+              type="text"
+              placeholder="Enter username"
+              value={inputs.username}
+              onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
+              className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
 
- 					<div>
- 						<label className='label'>
- 							<span className='text-base label-text'>Password</span>
- 						</label>
- 						<input
- 							type='password'
- 							placeholder='Enter Password'
-							 value={inputs.password}
-							 onChange={(e)=>setInputs({...inputs, password:e.target.value})}
- 							className='w-full input input-bordered h-10'
- 						/>
- 					</div>
+ 
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={inputs.password}
+              onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
+              className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
 
- 					<div>
- 						<label className='label'>
- 							<span className='text-base label-text'>Confirm Password</span>
- 						</label>
- 						<input
- 							type='password'
-							 value={inputs.confirmPassword}
-							 onChange={(e)=>setInputs({...inputs, confirmPassword:e.target.value})}
- 							placeholder='Confirm Password'
- 							className='w-full input input-bordered h-10'
- 						/>
- 					</div>
+        
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <input
+              type="password"
+              placeholder="Confirm password"
+              value={inputs.confirmPassword}
+              onChange={(e) => setInputs({ ...inputs, confirmPassword: e.target.value })}
+              className="mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
 
- 					
+        
+          <div className="flex  text-sm">
+            <Link to="/login" className="text-blue-600 hover:underline ">
+              Already have an account?
+            </Link>
+          </div>
 
- 					<Link to="/login" className='text-sm hover:underline hover:text-blue-600 mt-2 inline-block' href='#'>
- 						Already have an account?
- 					</Link>
 
- 					<div>
- 						<button type='submit' className='btn btn-block btn-sm mt-2 border border-slate-700'>Sign Up</button>
- 					</div>
- 				</form>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
+          >
+            Sign Up
+          </button>
+        </form>
  			</div>
  		</div>
 
