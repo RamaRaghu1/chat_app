@@ -20,13 +20,14 @@ const signup = async (req, res) => {
       username,
       password: hasshedPassword,
     });
+    // console.log("new===>", newUser)
     if (newUser) {
       generateTokenAndSetCookie(newUser?._id, res);
       await newUser.save();
       res.status(200).json({
-        _id: user._id,
-        fullName: user.fullName,
-        username: user.username,
+        _id: newUser._id,
+        fullName: newUser.fullName,
+        username: newUser.username,
       });
     }
   } catch (error) {
