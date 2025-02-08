@@ -20,14 +20,18 @@ const {setAuthUser}=useAuthContext();
         credentials: "include",
         body: JSON.stringify({ username, password }),
       });
+      if (!res.ok) {
+
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Login failed");
+      }
+
       const data = await res.json();
-      if (data.error) {
-        throw new Error(data.error);
-      } else {
+     
         toast.success("login successful");
         localStorage.setItem('user',JSON.stringify(data))
         setAuthUser(data)
-      }
+   
     } catch (error) {
       toast.error(error.message);
     } finally {

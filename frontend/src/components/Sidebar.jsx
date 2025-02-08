@@ -10,7 +10,7 @@ const {logout, loading}=useLogout();
 const {loading:convoLoading, conversations:contacts}=useGetConvo();
 const {selectedConversation, setSelectedConversation}=useConversation();
 
-console.log(selectedConversation)
+// console.log(selectedConversation)
 
     // const [selectedContact, setSelectedContact] = useState(1);
    

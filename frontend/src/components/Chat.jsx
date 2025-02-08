@@ -7,7 +7,7 @@ import useGetMessages from '../hooks/useGetMessage';
 import { useAuthContext } from '../context/AuthContext';
 const Chat = () => {
   const { authUser } = useAuthContext();
-  console.log(authUser._id, "iggg")
+  // console.log(authUser._id, "iggg")
   const[message, setMessage]=useState("");
    const {loading, sendMessage}=useSendMessage();
    const{loading:messageLoading, messages}=useGetMessages();
@@ -15,7 +15,7 @@ const {selectedConversation, setSelectedConversation}=useConversation();
 useEffect(()=>{
   return ()=>setSelectedConversation(null)
 },[setSelectedConversation])
-  console.log(messages)
+  // console.log(messages)
     
       const handleSend = async(e) => {
         e.preventDefault();

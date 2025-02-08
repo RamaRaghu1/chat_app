@@ -39,7 +39,7 @@ const getMessage = async (req, res) => {
     const convo = await Conversation.findOne({
       participants: { $all: [senderId, userToChatId] },
     }).populate("messages");
-    console.log("convo======>", convo);
+    // console.log("convo======>", convo);
 
     if (!convo) {
       return res.status(200).json([]);
