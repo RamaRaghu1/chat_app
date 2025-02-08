@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
 const signup = async (req, res) => {
   try {
-    const { fullName, username, password, confirmPassword, gender } = req.body;
+    const { fullName, username, password, confirmPassword } = req.body;
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Password doesn't match" });
     }
@@ -19,13 +19,13 @@ const signup = async (req, res) => {
       fullName,
       username,
       password: hasshedPassword,
-      gender,
+     
     });
     if (newUser) {
       generateTokenAndSetCookie(newUser._id, res);
       await newUser.save();
       res
-        .status(400)
+        .status(200)
         .json({ data: newUser, message: "User created successfully" });
     } else {
     }
